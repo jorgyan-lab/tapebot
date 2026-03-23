@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="claro">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IBM TS2900 Tape Autoloader - Machine Type 3572</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="simulador.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- ══ TOP BAR ═══════════════════════════════════════════ -->
+<div class="top-bar">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="logo">📼</div>
+    <div class="header-info">
+      <h1>IBM TS2900 Tape Autoloader - Machine Type 3572</h1>
+      <span>2 MAGAZINES × 5+4 SLOTS | 1 TAPE DRIVE | PRECISION RAIL | ROBOT PICKER</span>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <button id="btn-trocar-al" onclick="abrirModalAutoloader()">🤖 Trocar Autoloader</button>
+    <button id="btn-tema" onclick="alternarTema()">
+      <span id="tema-icon">🌙</span>
+      <span id="tema-label">Tema Escuro</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══ BARRA DE COMANDOS ══════════════════════════════════ -->
+<div class="cmd-bar">
+  <span class="cmd-label">Drive</span>
+  <button id="btnUnload" class="act-btn eject" disabled>⏏ Ejetar Fita</button>
+  <div class="cmd-separator"></div>
+  <span class="cmd-label">Slots</span>
+  <button id="btn-abrir-mover" class="act-btn move" onclick="abrirModalMover()">⇄ Mover Fita</button>
+  <div class="cmd-separator"></div>
+  <span class="cmd-label">Áudio</span>
+  <button id="btn-mudo" class="act-btn mudo" onclick="alternarMudo()">🔊 Som</button>
+</div>
+
+<!-- ══ LEGENDA DE TIPOS DE FITA ══════════════════════════ -->
+<div class="legenda-fitas" id="legenda-fitas">
+  <span class="legenda-item"><span class="legenda-cor" style="background:#2563eb;"></span>LTO-8</span>
+  <span class="legenda-item"><span class="legenda-cor" style="background:#7c3aed;"></span>LTO-7</span>
+  <span class="legenda-item"><span class="legenda-cor" style="background:#059669;"></span>LTO-6</span>
+  <span class="legenda-item"><span class="legenda-cor" style="background:#d97706;"></span>LTO-5</span>
+  <span class="legenda-item"><span class="legenda-cor" style="background:#dc2626;"></span>LTO-4</span>
+  <span class="legenda-item"><span class="legenda-cor" style="background:#9c5fd6;"></span>Limpeza</span>
+  <span class="legenda-item"><span class="legenda-cor" style="background:#6b7280;"></span>Desconhecido</span>
+</div>
+
+<!-- ══ CANVAS ════════════════════════════════════════════ -->
+<div id="canvas-wrap">
+  <canvas id="c" width="1080" height="340"></canvas>
+</div>
+
+<!-- ══ PAINÉIS INFORMATIVOS ══════════════════════════════ -->
+<div class="info-bar">
+  <div class="panel" style="flex:3; min-width:320px;">
+    <h3>▶ Carregar Slot no Drive</h3>
+    <div class="slot-btn-wrap" id="btn-slots"></div>
+  </div>
+  <div class="panel" style="min-width:260px; flex:2;">
+    <h3>Log de Eventos</h3>
+    <div id="log-box"></div>
+  </div>
+</div>
+
+<!-- ══ MODAL MOVER SLOT ══════════════════════════════════ -->
+<div id="modal-mover">
+  <div class="modal-box">
+    <h2>⇄ Mover Fita entre Slots</h2>
+    <p>Selecione o slot de <strong>origem</strong> (com fita) e o <strong>destino</strong> (vazio).</p>
+    <div class="modal-selects">
+      <select id="sel-origem"><option value="">— Origem —</option></select>
+      <span class="modal-arrow">→</span>
+      <select id="sel-destino"><option value="">— Destino —</option></select>
+    </div>
+    <div class="modal-actions">
+      <button id="btn-modal-cancelar" onclick="fecharModalMover()">Cancelar</button>
+      <button id="btn-modal-confirmar" onclick="confirmarMoverSlot()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL AUTOLOADER ══════════════════════════════════ -->
+<div id="modal-autoloader">
+  <div class="modal-box modal-box-al">
+    <h2>🤖 Selecionar Autoloader</h2>
+    <p>Escolha o autoloader que deseja simular. Os slots e drives serão ajustados automaticamente.</p>
+    <div id="al-lista-wrap">
+      <div id="al-loading">⏳ Carregando lista de autoloaders...</div>
+      <div id="al-lista" style="display:none;"></div>
+      <div id="al-erro" style="display:none;color:var(--red);font-size:0.78rem;"></div>
+    </div>
+    <div class="modal-actions">
+      <button id="btn-al-cancelar" onclick="fecharModalAutoloader()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL SELEÇÃO DE DRIVE ════════════════════════════ -->
+<div id="modal-drive">
+  <div class="modal-box">
+    <h2 id="modal-drive-titulo">▶ Selecionar Drive</h2>
+    <p>Escolha o drive de destino disponível.</p>
+    <div class="slot-btn-wrap" id="drive-lista"></div>
+    <div class="modal-actions">
+      <button onclick="fecharModalDrive()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script src="simulador.js"></script>
+
+</body>
+</html>
